@@ -1,0 +1,47 @@
+name: Production CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Unit Tests
+        run: go test -v ./...
+
+      - name: Build Docker Image
+        run: docker build -t notify-engine:latest -f deployments/docker/Dockerfile .
+
+      # THE SECURITY GATE: TRIVY
+      - name: Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'notify-engine:latest'
+          format: 'table'
+          exit-code: '1' # Fails the build if vulnerabilities are found
+          severity: 'CRITICAL,HIGH'
+
+  terraform-plan:
+    needs: test-and-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: HashiCorp Setup
+        uses: hashicorp/setup-terraform@v2
+      
+      - name: Terraform Init & Plan
+        run: |
+          cd terraform
+          terraform init
+          terraform plan
