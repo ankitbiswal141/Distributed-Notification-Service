@@ -12,4 +12,7 @@ go.sum
 
 # Terraform/Local K8s
 .terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 kubeconfig
