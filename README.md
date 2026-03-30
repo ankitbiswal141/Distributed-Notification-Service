@@ -98,21 +98,21 @@ Content-Type: application/json
 
 ## Failure Handling
 
-* #### Worker Saturation
-       Requests are rejected when the queue reaches capacity to protect the system.
-* #### External Provider Failures
-       Failures are logged and can be extended with retry or DLQ mechanisms.
-* #### Pod Termination
-       Graceful shutdown ensures no in-flight jobs are dropped.
+- #### Worker Saturation
+  Requests are rejected when the queue reaches capacity to protect the system.
+- #### External Provider Failures
+  Failures are logged and can be extended with retry or DLQ mechanisms.
+- #### Pod Termination
+  Graceful shutdown ensures no in-flight jobs are dropped.
 
 ---
 ### Observability
 * #### Logging
 Structured logs for request lifecycle and worker activity.
 * #### Metrics (Extensible)
-* * Queue depth
-* * Worker utilization
-* * Request throughput
+  - Queue depth
+  - Worker utilization
+  - Request throughput
 * #### Tracing (Extensible)
   OpenTelemetry can be integrated for distributed tracing.
 
@@ -155,6 +155,20 @@ Clone the repository:
 ```bash
 git clone https://github.com/your-username/distributed-notification-service.git
 cd distributed-notification-service
+```
 
+Run the Setup Script:
+
+```bash
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
+```
+
+Verify Deployment:
+```bash
+## Check Running Pods
+kubectl get pods
+
+## View logs
+kubectl logs -l app.kubernetes.io/name=notify-chart --tail=50
+```
