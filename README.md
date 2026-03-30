@@ -10,7 +10,26 @@ The service is built in Go for performance, containerized with Docker using mini
 ## System Architecture
 The service is designed for high throughput, fault tolerance, and controlled backpressure.
 
-!(C:\Users\imank\Downloads\mermaid-diagram.png)
+## System Architecture
+
+```mermaid
+graph TD
+    A[Client Request] -->|REST API| B(Go Ingestion Engine)
+    B -->|Buffered Channel| C{Worker Pool}
+    C -->|Worker 1| D[Email/SMS Provider]
+    C -->|Worker 2| D[Email/SMS Provider]
+    C -->|Worker N| D[Email/SMS Provider]
+
+    subgraph Kubernetes Cluster
+    B
+    C
+    end
+
+    E[HPA] -.->|Monitor CPU/Mem| B
+    E -.->|Scale Replicas| B
+```
+
+---
 
 ## Architecture Breakdown
 
