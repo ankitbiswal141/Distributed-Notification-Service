@@ -1,8 +1,8 @@
 # Standard VPC setup for our Microservice
-module "vpc"{
+module "vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
-  tags = { Name = "notification-engine-vpc" }
+  tags                 = { Name = "notification-engine-vpc" }
 }
 
 # EKS Cluster (Kubernetes)
@@ -18,10 +18,10 @@ module "eks" {
 
   eks_managed_node_groups = {
     general = {
-      desired_size = 2
-      min_size     = 1
-      max_size     = 5
-      instance_types = ["t3.medium"]     # Replace this with your instance type
+      desired_size   = 2
+      min_size       = 1
+      max_size       = 5
+      instance_types = ["t3.medium"] # Replace this with your instance type
     }
   }
 }
@@ -40,11 +40,11 @@ provider "helm" {
 
 # Automated Helm Deployment via Terraform
 resource "helm_release" "notify_engine" {
-  name       = "notify-service"
-  repository = "../deployments/helm/notify-chart"
-  chart      = "notify-chart"
-  version    = var.argocd_version
-  namespace  = "production"
+  name             = "notify-service"
+  repository       = "../deployments/helm/notify-chart"
+  chart            = "notify-chart"
+  version          = var.argocd_version
+  namespace        = "production"
   create_namespace = true
 
   set {
