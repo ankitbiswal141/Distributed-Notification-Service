@@ -1,0 +1,15 @@
+# Binaries
+bin/
+notify-engine
+
+# OS junk
+.DS_Store
+*.log
+
+# Go
+vendor/
+go.sum
+
+# Terraform/Local K8s
+.terraform/
+kubeconfig
