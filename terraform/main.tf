@@ -1,6 +1,6 @@
 # Standard VPC setup for our Microservice
-resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
+module "vpc"{
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   tags = { Name = "notification-engine-vpc" }
 }
@@ -10,11 +10,11 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
 
-  cluster_name    = "notification-cluster"
+  cluster_name    = var.cluster_name
   cluster_version = "1.28"
 
-  vpc_id     = aws_vpc.main.id
-  subnet_ids = ["<Replace this with your subnet id>"] 
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
 
   eks_managed_node_groups = {
     general = {
@@ -43,6 +43,7 @@ resource "helm_release" "notify_engine" {
   name       = "notify-service"
   repository = "../deployments/helm/notify-chart"
   chart      = "notify-chart"
+  version    = var.argocd_version
   namespace  = "production"
   create_namespace = true
 
