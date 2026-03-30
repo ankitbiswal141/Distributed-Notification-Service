@@ -14,14 +14,14 @@ module "eks" {
   cluster_version = "1.28"
 
   vpc_id     = aws_vpc.main.id
-  subnet_ids = ["subnet-abc123", "subnet-def456"] # Simulated IDs
+  subnet_ids = ["<Replace this with your subnet id>"] 
 
   eks_managed_node_groups = {
     general = {
       desired_size = 2
       min_size     = 1
       max_size     = 5
-      instance_types = ["t3.medium"]
+      instance_types = ["t3.medium"]     # Replace this with your instance type
     }
   }
 }
