@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 	
-	"backend/internal/notifier"
+	"github.com/ankitbiswal141/Distributed-Notification-Service/internal/modifier"
 )
 
 func main() {
