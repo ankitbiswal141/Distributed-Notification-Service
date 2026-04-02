@@ -27,6 +27,8 @@ module "eks" {
 }
 
 provider "helm" {
+  alias = "primary"
+
   kubernetes {
     host                   = module.eks.cluster_endpoint
     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
@@ -40,6 +42,7 @@ provider "helm" {
 
 # Automated Helm Deployment via Terraform
 resource "helm_release" "notify_engine" {
+  provider         = helm.primary
   name             = "notify-service"
   repository       = "../deployments/helm/notify-chart"
   chart            = "notify-chart"
