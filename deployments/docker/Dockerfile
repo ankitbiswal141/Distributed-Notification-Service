@@ -4,7 +4,7 @@ WORKDIR /app
 COPY go.mod ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o notify-engine ../../cmd/engine/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o notify-engine ./cmd/engine/main.go
 
 # Stage 2: Production (Security Hardened)
 FROM gcr.io/distroless/static:latest
