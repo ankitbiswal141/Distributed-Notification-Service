@@ -1,5 +1,10 @@
 # Standard VPC setup for our Microservice
 module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+  version = "~> 5.0"
+
+  name = "notification-engine-vpc"
+
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   tags                 = { Name = "notification-engine-vpc" }
