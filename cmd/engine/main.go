@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 	
 	"github.com/ankitbiswal141/Distributed-Notification-Service/internal/modifier"
 )
